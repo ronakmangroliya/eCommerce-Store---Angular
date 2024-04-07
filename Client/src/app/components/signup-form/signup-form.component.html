@@ -1,0 +1,90 @@
+<section
+  class="text-gray-600 body-font relative bg-[#edf5ff] h-[100vh] bg-gray-200"
+>
+  <div class="flex justify-center items-center h-full">
+    <div
+      class="flex flex-col w-[30%] mb-12 mx-auto bg-white shadow-md rounded-lg px-8 py-16"
+    >
+      <h1 class="pb-4 text-center text-black text-3xl font-bold">
+        Signup Form
+      </h1>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div class="mb-6">
+          <label for="username" class="block mb-2 text-sm font-medium"
+            >Your Name</label
+          >
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter Your Name"
+            required
+          />
+          <div
+            *ngIf="myForm.get('username')?.errors?.['required']"
+            class="text-red-500"
+          >
+            Name is required
+          </div>
+          <div
+            *ngIf="myForm.get('username')?.errors?.['minlength']"
+            class="text-red-500"
+          >
+            Name must be at least 3 characters
+          </div>
+        </div>
+        <!-- <div class="mb-6">
+          <label for="email" class="block mb-2 text-sm font-medium"
+            >Your Email</label
+          >
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter Your Email"
+            required
+          />
+          <div
+            *ngIf="myForm.get('email')?.errors?.['required']"
+            class="text-red-500"
+          >
+            Email is required
+          </div>
+          <div
+            *ngIf="myForm.get('email')?.errors?.['email']"
+            class="text-red-500"
+          >
+            Invalid email format
+          </div>
+        </div> -->
+        <div class="mb-6">
+          <label for="password" class="block mb-2 text-sm font-medium"
+            >Your Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter Your Password"
+            required
+          />
+          <div
+            *ngIf="myForm.get('password')?.errors?.['required']"
+            class="text-red-500"
+          >
+            Password is required
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full sm:w-auto px-8 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          SignUp
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

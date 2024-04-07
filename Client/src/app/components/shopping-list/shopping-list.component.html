@@ -1,0 +1,91 @@
+<app-navbar></app-navbar>
+<div class="container mx-auto pt-8 mx-24 mb-14">
+  <h2 class="text-3xl font-semibold mb-6">Products</h2>
+
+  <div class="flex mb-4"> 
+    <div class="flex-grow mr-4">
+      <input
+        type="text"
+        class="block w-full p-2 mt-3 bg-gray-200 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        placeholder="Search by title..."
+        [(ngModel)]="searchTerm"
+        (input)="filterProducts()"
+      />
+    </div>
+    <div>
+      <label class="block text-gray-700 text-sm font-bold mb-1 ml-1">Filter by category:</label>
+      <select
+        class="block p-1 bg-gray-200 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        [(ngModel)]="selectedCategory"
+        (change)="filterProducts()"
+      >
+        <option value="">All categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="jewelery">Jewelery</option>
+        <option value="men's clothing">Men's Clothing</option>
+        <option value="women's clothing">Women's Clothing</option>
+      </select>
+    </div>
+  </div>
+
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+  >
+    <div
+      *ngFor="let product of filterProducts()"
+      class="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-2xl relative"
+    >
+      <div
+        [style.paddingBottom.%]="75"
+        [style.position]="'relative'"
+        [style.overflow]="'hidden'"
+      >
+        <img
+          [src]="product.image"
+          [alt]="product.title"
+          class="absolute top-0 left-0 object-cover object-center p-8"
+        />
+      </div>
+      <div class="p-4">
+        <h2 class="text-lg font-semibold mb-2 line-clamp-2 truncate">
+          {{ product.title }}
+        </h2>
+        <p class="text-gray-700 mb-2">${{ product.price.toFixed(2) }}</p>
+
+        <button
+          (click)="addToCart(product.id, 1)"
+          class="bg-blue-500 text-white px-4 py-2 rounded-lg"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="absolute bottom-0 right-0 p-2 cursor-pointer p-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          stroke="currentColor"
+          stroke-width="2"
+          [attr.fill]="product.isFavorite ? 'red' : 'none'"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-8 h-8 transition-colors duration-1000 ease-in-out"
+          (click)="toggleFavorite(product.id)"
+        >
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- <app-product-detail
+    *ngIf="selectedProduct"
+    [product]="selectedProduct"
+    (onClose)="closeDetailProduct()"
+    (onAddToCart)="handleAddtoCart($event)"
+  >
+  </app-product-detail> -->
+</div>
