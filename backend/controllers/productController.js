@@ -10,6 +10,29 @@ async function getAllProducts(req, res) {
   });
 }
 
+async function getProductById(req, res) {
+  try {
+    const { id } = req.params;
+    const product = await Product.findOne({ id });
+    if (!product) {
+      return res.status(404).json({
+        status: "failed",
+        message: "Product not found",
+      });
+    }
+    return res.status(200).json({
+      status: "success",
+      data: product,
+      message: "Product fetched successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+}
+
 async function addToCart(req, res) {
   try {
     const { username, productId, quantity } = req.body;
@@ -123,7 +146,6 @@ async function updateCartProductQuantity(req, res) {
   }
 }
 
-
 async function removeProductFromCart(req, res) {
   try {
     const { username, productId } = req.params;
@@ -139,7 +161,9 @@ async function removeProductFromCart(req, res) {
 
     const productIdNumber = parseInt(productId);
 
-    cart.products = cart.products.filter(product => product.id !== productIdNumber);
+    cart.products = cart.products.filter(
+      (product) => product.id !== productIdNumber
+    );
 
     await cart.save();
 
@@ -156,11 +180,11 @@ async function removeProductFromCart(req, res) {
   }
 }
 
-
 module.exports = {
   getAllProducts,
+  getProductById,
   addToCart,
   getProductsInCart,
   updateCartProductQuantity,
-  removeProductFromCart
+  removeProductFromCart,
 };

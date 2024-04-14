@@ -1,8 +1,9 @@
 <app-navbar></app-navbar>
+<app-custom-toast></app-custom-toast>
 <div class="container mx-auto pt-8 mx-24 mb-14">
   <h2 class="text-3xl font-semibold mb-6">Products</h2>
 
-  <div class="flex mb-4"> 
+  <div class="flex mb-4">
     <div class="flex-grow mr-4">
       <input
         type="text"
@@ -13,7 +14,9 @@
       />
     </div>
     <div>
-      <label class="block text-gray-700 text-sm font-bold mb-1 ml-1">Filter by category:</label>
+      <label class="block text-gray-700 text-sm font-bold mb-1 ml-1"
+        >Filter by category:</label
+      >
       <select
         class="block p-1 bg-gray-200 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         [(ngModel)]="selectedCategory"
@@ -43,7 +46,8 @@
         <img
           [src]="product.image"
           [alt]="product.title"
-          class="absolute top-0 left-0 object-cover object-center p-8"
+          class="absolute top-0 left-0 object-cover object-center p-8 cursor-pointer"
+          (click)="openProductDetails(product)"
         />
       </div>
       <div class="p-4">
@@ -81,11 +85,11 @@
     </div>
   </div>
 
-  <!-- <app-product-detail
-    *ngIf="selectedProduct"
-    [product]="selectedProduct"
-    (onClose)="closeDetailProduct()"
-    (onAddToCart)="handleAddtoCart($event)"
-  >
-  </app-product-detail> -->
+<app-product-details
+  *ngIf="selectedProduct"
+  [selectedProduct]="selectedProduct"
+  (closePopup)="closeDetailProduct()"
+  (addToCartClicked)="addToCartDetails($event)"
+></app-product-details>
+
 </div>

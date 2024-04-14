@@ -16,7 +16,6 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'success', component: SuccessComponent },
   { path: 'cancel', component: CancelComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({

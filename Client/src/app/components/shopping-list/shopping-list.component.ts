@@ -8,12 +8,20 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { FavoriteService } from '../../services/favorite/favorite.service';
-
+import { ProductDetailsComponent } from '../product-details/product-details.component';
+import { ToastService } from '../../services/toast/toast.service';
+import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 
 @Component({
   selector: 'app-shopping-list',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FormsModule],
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    FormsModule,
+    ProductDetailsComponent,
+    CustomToastComponent,
+  ],
   templateUrl: './shopping-list.component.html',
   styleUrl: './shopping-list.component.css',
 })
@@ -27,10 +35,13 @@ export class ShoppingListComponent implements OnInit {
   productId: number = 0;
   quantity: number = 1;
 
+  selectedProduct: Product | null = null;
+
   constructor(
     private productService: ProductService,
     private authService: AuthService,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +59,8 @@ export class ShoppingListComponent implements OnInit {
         this.checkFavorites();
       },
       (error) => {
-        this.errorMessage = error.message || 'Failed to fetch products';
+        // this.errorMessage = error.message || 'Failed to fetch products';
+        this.toastService.showToast(error.message || 'Failed to fetch products');
       }
     );
   }
@@ -65,10 +77,12 @@ export class ShoppingListComponent implements OnInit {
         });
       },
       (error) => {
-        console.error('Failed to fetch user favorites:', error);
+        // console.error('Failed to fetch user favorites:', error);
+        this.toastService.showToast('Failed to fetch user favorites:'|| error);
       }
     );
   }
+
 
   addToCart(productId: number, quantity: number): void {
     const username = this.authService.getUsername() || '';
@@ -79,10 +93,33 @@ export class ShoppingListComponent implements OnInit {
 
     this.productService.addToCart(username, productId, quantity).subscribe(
       (data: any) => {
-        alert('Product added to cart successfully');
+        // alert('Product added to cart successfully');
+        this.toastService.showToast('Product added to cart successfully');
       },
       (error) => {
-        console.error('Failed to add product to cart:', error);
+        // console.error('Failed to add product to cart:', error);
+        this.toastService.showToast('Failed to add product to cart:' || error);
+      }
+    );
+  }
+  
+
+  addToCartDetails(event: { productId: number, quantity: number }): void {
+    const { productId, quantity } = event;
+    const username = this.authService.getUsername() || '';
+    if (!username || !productId || !quantity) {
+      console.log('Username, productId, and quantity are required');
+      return;
+    }
+
+    this.productService.addToCart(username, productId, quantity).subscribe(
+      (data: any) => {
+        // alert('Product added to cart successfully');
+        this.toastService.showToast('Product added to cart successfully');
+      },
+      (error) => {
+        // console.error('Failed to add product to cart:', error);
+        this.toastService.showToast('Failed to add product to cart' || error);
       }
     );
   }
@@ -98,7 +135,8 @@ export class ShoppingListComponent implements OnInit {
     this.favoriteService.toggleFavorite(username, productId).subscribe(
       (data: any) => {
         // console.log(data.message);
-        alert(data.message);
+        // alert(data.message);
+        this.toastService.showToast(data.message || 'Failed to toggle favorite status');
       },
       (error) => {
         console.error('Error toggling favorite status:', error);
@@ -110,17 +148,25 @@ export class ShoppingListComponent implements OnInit {
     let filteredProducts = [...this.products];
 
     if (this.searchTerm.trim() !== '') {
-      filteredProducts = filteredProducts.filter(product =>
+      filteredProducts = filteredProducts.filter((product) =>
         product.title.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
 
     if (this.selectedCategory.trim() !== '') {
-      filteredProducts = filteredProducts.filter(product =>
-        product.category === this.selectedCategory
+      filteredProducts = filteredProducts.filter(
+        (product) => product.category === this.selectedCategory
       );
     }
 
     return filteredProducts;
+  }
+
+  openProductDetails(product: Product) {
+    this.selectedProduct = product;
+  }
+
+  closeDetailProduct() {
+    this.selectedProduct = null;
   }
 }

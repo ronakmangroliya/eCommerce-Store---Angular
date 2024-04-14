@@ -4,11 +4,13 @@ import { AuthService } from '../../services/auth/auth.service';
 import { FavoriteService } from '../../services/favorite/favorite.service';
 import { Product } from '../../services/product/product.service';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../services/toast/toast.service';
+import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 
 @Component({
   selector: 'app-favorite',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, CustomToastComponent],
   templateUrl: './favorite.component.html',
   styleUrl: './favorite.component.css',
 })
@@ -18,7 +20,8 @@ export class FavoriteComponent implements OnInit {
 
   constructor(
     private favoriteService: FavoriteService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +31,8 @@ export class FavoriteComponent implements OnInit {
   getFavoriteProducts(): void {
     const username = this.authService.getUsername() || '';
     if (!username) {
-      console.error('Username not found');
+      // console.error('Username not found');
+      this.toastService.showToast('Username not found');
       return;
     }
     this.favoriteService.getUserFavorites(username).subscribe(
@@ -36,7 +40,8 @@ export class FavoriteComponent implements OnInit {
         this.favoriteProducts = data.data || [];
       },
       (error) => {
-        console.error('Failed to fetch favorite products:', error);
+        // console.error('Failed to fetch favorite products:', error);
+        this.toastService.showToast('Failed to fetch favorite products');
       }
     );
   }

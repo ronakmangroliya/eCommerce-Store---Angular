@@ -1,3 +1,5 @@
+<app-custom-toast></app-custom-toast>
+
 <section
   class="text-gray-600 body-font relative bg-[#edf5ff] h-screen bg-gray-200"
 >
@@ -44,25 +46,24 @@
           <p class="text-red-500" *ngIf="errorMessage">{{ errorMessage }}</p>
         </div>
 
-        <div class="mb-6">
-          <h3>
-            Don't have an Account?
-            <span
-              class="text-blue-900 hover:text-blue-700 cursor-pointer font-bold"
-            >
-              <a routerLink="/signup">Sign Up</a>
-            </span>
-          </h3>
-        </div>
-
         <button
           type="submit"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full px-8 py-2.5"
+          class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full px-8 py-2.5"
           [disabled]="form.invalid"
         >
           Login
         </button>
       </form>
+      <div class="mt-6">
+        <h3>
+          Don't have an Account?
+          <span
+            class="text-blue-900 hover:text-blue-700 cursor-pointer font-bold"
+          >
+            <a routerLink="/signup">Sign Up</a>
+          </span>
+        </h3>
+      </div>
     </div>
   </div>
 </section>

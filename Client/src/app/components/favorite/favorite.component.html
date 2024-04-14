@@ -1,8 +1,11 @@
 <app-navbar></app-navbar>
+<app-custom-toast></app-custom-toast>
 <div class="container mx-auto pt-8 mx-24 mb-14">
   <h2 class="text-3xl font-semibold mb-6">Favorite Products</h2>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+  >
     <div
       *ngFor="let product of favoriteProducts"
       class="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-2xl relative"

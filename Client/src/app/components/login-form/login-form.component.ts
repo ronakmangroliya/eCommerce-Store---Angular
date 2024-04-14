@@ -5,7 +5,8 @@ import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
-
+import { ToastService } from '../../services/toast/toast.service';
+import { CustomToastComponent } from '../custom-toast/custom-toast.component';
 interface ApiResponse {
   status: string;
   data: any;
@@ -15,7 +16,7 @@ interface ApiResponse {
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [RouterLink, FormsModule, CommonModule],
+  imports: [RouterLink, FormsModule, CommonModule, CustomToastComponent],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
 })
@@ -29,7 +30,8 @@ export class LoginFormComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService
   ) {}
 
   onSubmit(loginForm: NgForm) {
@@ -43,10 +45,10 @@ export class LoginFormComponent {
           (response) => {
             console.log(response); // Log the response for debugging
             if (response.status === 'success') {
-
               // Store the username in the AuthService
               const username = response.data.username;
               this.authService.setUsername(username);
+              this.toastService.showToast('Login successful');
               // Redirect to home page or any other route upon successful login
               this.router.navigateByUrl('/shopping-list');
             } else {
@@ -56,12 +58,14 @@ export class LoginFormComponent {
           },
           (error) => {
             console.error('Error logging in:', error); // Log error for debugging
-            this.errorMessage = error.error.message || 'Failed to login';
+            this.toastService.showToast(
+              error.error.message || 'Failed to login'
+            );
           }
         );
     } else {
       // Form is invalid
-      this.errorMessage = 'Please enter valid credentials';
+      this.toastService.showToast('Please enter valid credentials');
     }
   }
 }

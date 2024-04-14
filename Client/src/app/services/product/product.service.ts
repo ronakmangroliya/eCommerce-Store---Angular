@@ -23,6 +23,9 @@ export interface Product {
 export class ProductService {
   private allProductsUrl: string = 'http://localhost:3000/api/product/products';
 
+  private productDetailsUrl: string =
+    'http://localhost:3000/api/product/products';
+
   private addToCartUrl: string = 'http://localhost:3000/api/product/add';
 
   private getCartUrl: string = 'http://localhost:3000/api/product';
@@ -39,6 +42,10 @@ export class ProductService {
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.allProductsUrl);
+  }
+
+  getProductDetails(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.productDetailsUrl}/${id}`);
   }
 
   addToCart(
