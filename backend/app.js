@@ -9,6 +9,8 @@ const cors = require("cors");
 
 dotenv.config();
 
+mongoose.set('strictQuery', false);
+
 const app = express();
 app.use(cors());
 const PORT = process.env.PORT || 3000;
@@ -22,7 +24,11 @@ const uri = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${M
 
 // MongoDB connection
 mongoose
-  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+  })
   .then(() => {
     console.log(`Connected to MongoDB database: ${process.env.MONGO_DBNAME}`);
   })
@@ -34,7 +40,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/favorite", favoriteRoutes);
-app.use('/api/stripe', checkoutRoutes);
+app.use("/api/stripe", checkoutRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
