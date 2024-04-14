@@ -8,23 +8,27 @@
     ],
     "routes": [
         {
-            "src": "/api/auth/(.*)",
-            "dest": "/authRoutes/$1"
+            "src": "/api/auth(.*)",
+            "dest": "/api/auth$1"
         },
         {
-            "src": "/api/product/(.*)",
-            "dest": "/productRoutes/$1"
+            "src": "/api/product(.*)",
+            "dest": "/api/product$1"
         },
         {
-            "src": "/api/favorite/(.*)",
-            "dest": "/favoriteRoutes/$1"
+            "src": "/api/favorite(.*)",
+            "dest": "/api/favorite$1"
         },
         {
-            "src": "/api/stripe/(.*)",
-            "dest": "/checkoutRoutes/$1"
+            "src": "/api/stripe(.*)",
+            "dest": "/api/stripe$1"
         },
         {
-            "src": "/api(.*)",
+            "src": "/api/(.*)",
+            "dest": "/api/$1"
+        },
+        {
+            "src": "/.*",
             "dest": "/app.js"
         }
     ]
