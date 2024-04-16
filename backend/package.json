@@ -4,7 +4,8 @@
     "description": "Node.js JWT Authentication API",
     "main": "src/app.js",
     "scripts": {
-        "start": "nodemon app.js"
+        "start": "nodemon app.js",
+        "build": "npm i"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
