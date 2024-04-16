@@ -6,11 +6,15 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class FavoriteService {
-  private toggleUrl: string = 'http://localhost:3000/api/favorite/toggle';
+  
+  // open render deployment URL for backend
+  private baseURL: string = 'https://angular-ecommerce-app.onrender.com';
 
-  private checkFavoritesUrl: string = 'http://localhost:3000/api/favorite';
+  private toggleUrl: string = this.baseURL + '/api/favorite/toggle';
 
-  private getFavoritesUrl: string = 'http://localhost:3000/api/favorite/allProducts';
+  private checkFavoritesUrl: string = this.baseURL + '/api/favorite';
+
+  private getFavoritesUrl: string = this.baseURL + '/api/favorite/allProducts';
 
   constructor(private http: HttpClient) {}
 

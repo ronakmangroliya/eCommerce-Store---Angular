@@ -21,6 +21,9 @@ import { CustomToastComponent } from '../custom-toast/custom-toast.component';
   styleUrl: './signup-form.component.css',
 })
 export class SignupFormComponent implements OnInit {
+  // open render deployment URL for backend
+  private baseURL: string = 'https://angular-ecommerce-app.onrender.com';
+
   myForm!: FormGroup;
   errorMessage!: string;
 
@@ -44,7 +47,7 @@ export class SignupFormComponent implements OnInit {
     }
 
     this.http
-      .post<any>('http://localhost:3000/api/auth/signup', this.myForm.value)
+      .post<any>(this.baseURL + '/api/auth/signup', this.myForm.value)
       .subscribe(
         (response) => {
           console.log(response);

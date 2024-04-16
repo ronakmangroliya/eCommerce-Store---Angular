@@ -21,6 +21,10 @@ interface ApiResponse {
   styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent {
+  
+  // open render deployment URL for backend
+  private baseURL: string = 'https://angular-ecommerce-app.onrender.com';
+
   loginData = {
     username: '',
     password: '',
@@ -37,13 +41,10 @@ export class LoginFormComponent {
   onSubmit(loginForm: NgForm) {
     if (loginForm.valid) {
       this.http
-        .post<ApiResponse>(
-          'http://localhost:3000/api/auth/login',
-          this.loginData
-        )
+        .post<ApiResponse>(this.baseURL + '/api/auth/login', this.loginData)
         .subscribe(
           (response) => {
-            console.log(response); // Log the response for debugging
+            //  console.log(response);
             if (response.status === 'success') {
               // Store the username in the AuthService
               const username = response.data.username;

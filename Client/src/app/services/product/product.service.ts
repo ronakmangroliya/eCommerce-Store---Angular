@@ -21,22 +21,25 @@ export interface Product {
   providedIn: 'root',
 })
 export class ProductService {
-  private allProductsUrl: string = 'http://localhost:3000/api/product/products';
 
-  private productDetailsUrl: string =
-    'http://localhost:3000/api/product/products';
+  // open render deployment URL for backend
+  private baseURL: string = 'https://angular-ecommerce-app.onrender.com';
 
-  private addToCartUrl: string = 'http://localhost:3000/api/product/add';
+  private allProductsUrl: string = this.baseURL + '/api/product/products';
 
-  private getCartUrl: string = 'http://localhost:3000/api/product';
+  private productDetailsUrl: string = this.baseURL + '/api/product/products';
+
+  private addToCartUrl: string = this.baseURL + '/api/product/add';
+
+  private getCartUrl: string = this.baseURL + '/api/product';
 
   private updateQuantityUrl: string =
-    'http://localhost:3000/api/product/updateQuantity';
+    this.baseURL + '/api/product/updateQuantity';
 
   private deleteProductUrl: string =
-    'http://localhost:3000/api/product/removeproduct';
+    this.baseURL + '/api/product/removeproduct';
 
-  private checkoutUrl: string = 'http://localhost:3000/api/stripe/checkout';
+  private checkoutUrl: string = this.baseURL + '/api/stripe/checkout';
 
   constructor(private http: HttpClient) {}
 
